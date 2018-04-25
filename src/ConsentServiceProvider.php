@@ -16,7 +16,7 @@ class ConsentServiceProvider extends ServiceProvider
             $timestamp = date('Y_m_d_His', time());
 
             $this->publishes([
-                __DIR__ . '/../database/migrations/create_consent_table.php.stub' => $this->app->databasePath() . "/migrations/{$timestamp}_create_permission_tables.php",
+                __DIR__ . '/../database/migrations/create_consent_table.php.stub' => $this->app->databasePath() . "/migrations/{$timestamp}_create_consent_table.php",
             ], 'migrations');
         }
     }
