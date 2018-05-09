@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Consent extends Model
 {
-    protected $fillable = ['name', 'model_id', 'model_type', 'given'];
-    protected $casts = ['given' => 'boolean'];
+    protected $fillable = ['name', 'text', 'model_id', 'model_type', 'given', 'meta'];
+    protected $casts = ['given' => 'boolean', 'meta' => 'array'];
 
     public function __construct(array $attributes = [])
     {
@@ -15,41 +15,21 @@ class Consent extends Model
         $this->setTable(config('consent.table'));
     }
 
-    public static function create(array $attributes = [])
+    public function model()
     {
-        $conditions = array_only($attributes, ['name','model_id','model_type']);
-
-        $consent = static::query()->where($conditions)->latest()->first();
-
-        if (! $consent) {
-            $consent = new static;
-        }
-
-        $consent->fill($attributes);
-    
-        if (! $consent->exists || $consent->isDirty()) {
-            $consent->save();
-        }
-
-        return $consent;
+        return $this->morphTo();
     }
 
-    public static function get(Model $model, $name)
+    public function hasSameConsentAs(Consent $consent)
     {
-        $attributes = [
-            'model_id' => $model->id,
-            'model_type' => get_class($model),
-            'name' => $name
-        ];
+        return ($this->given == $consent->given) &&
+                ($this->text == $consent->text);
+    }
 
-        $consent = static::query()->where($attributes)->latest()->first();
-
-        if (!$consent) {
-            $consent = new static($attributes);
-            $consent->given = false;
-        }
-
-        return $consent;
+    public function hasChangedConsent()
+    {
+        dd($this);
+        return $this->isDirty(['given', 'text']);
     }
 
     public function given()

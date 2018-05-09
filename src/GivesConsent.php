@@ -6,50 +6,63 @@ use Origami\Consent\Consent;
 
 trait GivesConsent
 {
-    public function consent()
+    public function consents()
     {
-        return $this->morphMany(Consent::class);
+        return $this->morphMany(Consent::class, 'model')->latest('created_at')->latest('id');
     }
 
-    public function hasGivenConsent($name)
+    public function setConsent($name, $given, array $attributes = [])
     {
-        return $this->hasConsentedTo($name);
-    }
+        $consent = $this->newConsent($name, $given, $attributes);
+        $current = $this->getLatestConsent($name);
 
-    public function hasConsentedTo($name)
-    {
-        return Consent::get($this, $name)->given();
-    }
-
-    public function giveConsentTo($name)
-    {
-        return Consent::create([
-            'model_id' => $this->getKey(),
-            'model_type' => get_class($this),
-            'name' => $name,
-            'given' => true,
-        ]);
-    }
-
-    public function revokeConsentTo($name)
-    {
-        return Consent::create([
-            'model_id' => $this->getKey(),
-            'model_type' => get_class($this),
-            'name' => $name,
-            'given' => false,
-        ]);
-    }
-
-    public function scopeConsented($query, $names)
-    {
-        if (! is_array($names)) {
-            $names = [$names];
+        if ($current && $consent->hasSameConsentAs($current)) {
+            return $current;
         }
 
-        return $query->whereHas('consent', function ($q) use ($names) {
-            $q->whereIn('name', $names)
-                ->where('given', '=', 1);
-        }, '=', count($names));
+        $consent->save();
+
+        return $consent;
+    }
+
+    protected function newConsent($name, $given, $attributes = [])
+    {
+        $consent = new Consent($attributes);
+        $consent->name = $name;
+        $consent->given = (boolean) $given;
+        $consent->model()->associate($this);
+
+        return $consent;
+    }
+
+    public function getConsent($name)
+    {
+        return $this->getLatestConsent($name);
+    }
+
+    public function getLatestConsent($name)
+    {
+        return $this->consents()->where('name', '=', $name)->first();
+    }
+
+    public function hasGivenConsent($name, $default = false)
+    {
+        return $this->hasConsentedTo($name, $default);
+    }
+
+    public function hasConsentedTo($name, $default = false)
+    {
+        $consent = $this->getLatestConsent($name);
+        return $consent ? $consent->given() : $default;
+    }
+
+    public function giveConsentTo($name, array $attributes = [])
+    {
+        return $this->setConsent($name, true, $attributes);
+    }
+
+    public function revokeConsentTo($name, array $attributes = [])
+    {
+        return $this->setConsent($name, false, $attributes);
     }
 }

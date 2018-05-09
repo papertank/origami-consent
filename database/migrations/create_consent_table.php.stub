@@ -20,6 +20,8 @@ class CreateConsentTable extends Migration
             $table->string('name')->index();
             $table->morphs('model');
             $table->boolean('given')->default(0);
+            $table->text('text')->nullable();
+            $table->mediumText('meta')->nullable();
             $table->timestamps();
             $table->index(['model_id','model_type','name']);
         });
