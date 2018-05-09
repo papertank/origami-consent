@@ -48,22 +48,18 @@ class User extends Model {
 You can mark explicit consent given like this:
 
 ```php
-
 $model->giveConsentTo('consent-name');
-
 ```
 
 GDPR requires you to keep a record of exactly what was shown at the time. You can do this in the `text` attribute, and pass anything extra in `meta`
 
 ```php
-
 $model->giveConsentTo('consent-name', [
   'text' => 'You are consenting to ...',
   'meta' => [
     'ip' => '192.168.0.1',
   ]
 ]);
-
 ```
 
 ### Give consent
@@ -71,9 +67,7 @@ $model->giveConsentTo('consent-name', [
 You can revoke a user's consent like so:
 
 ```php
-
 $model->revokeConsentTo('consent-name');
-
 ```
 
 ### Checking consent
@@ -81,31 +75,25 @@ $model->revokeConsentTo('consent-name');
 You can check if consent is given like so:
 
 ```php
-
 if ( $model->hasGivenConsent('consent-name') ) {
 
 }
-
 ```
 
 If consent has not been set, the default is `false`. You can change that in the 2nd paramter.
 
 ```php
-
 if ( $model->hasGivenConsent('consent-name', true) ) {
 
 }
-
 ```
 
 ### Current consent
 
-You can get the user's current consent status like so:
+You can get the user's current consent status like so. This will be an instance of `Origami\Consent\Consent`
 
 ```php
-
 $consent = $model->getConsent('consent-name');
-
 ```
 
 
