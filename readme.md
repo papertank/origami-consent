@@ -1,6 +1,6 @@
 # Laravel Consent [![Build Status](https://travis-ci.org/papertank/origami-consent.svg?branch=master)](https://travis-ci.org/papertank/origami-consent)
 
-## About
+## About
 
 The `origami/consent` helper package contains a Laravel model trait to make saving, comparing and revoking consent easier. The package saves all updates to consent to the `consent` table and provides a `GivesConsent` trait for models like the User model.
 
