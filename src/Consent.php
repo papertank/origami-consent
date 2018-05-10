@@ -28,7 +28,6 @@ class Consent extends Model
 
     public function hasChangedConsent()
     {
-        dd($this);
         return $this->isDirty(['given', 'text']);
     }
 

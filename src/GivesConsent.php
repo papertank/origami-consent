@@ -42,6 +42,12 @@ trait GivesConsent
 
     public function getLatestConsent($name)
     {
+        if ($this->relationLoaded('consents')) {
+            return $this->consents->first(function ($consent) use ($name) {
+                return $consent->name == $name;
+            });
+        }
+
         return $this->consents()->where('name', '=', $name)->first();
     }
 
