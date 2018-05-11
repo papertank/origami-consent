@@ -2,8 +2,6 @@
 
 namespace Origami\Consent\Test;
 
-use Spatie\Permission\Contracts\Role;
-
 class GivesConsentTest extends TestCase
 {
     /** @test */
