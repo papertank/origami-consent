@@ -3,6 +3,7 @@
 namespace Origami\Consent;
 
 use Origami\Consent\Consent;
+use Origami\Consent\Events\ConsentUpdated;
 
 trait GivesConsent
 {
@@ -21,6 +22,8 @@ trait GivesConsent
         }
 
         $consent->save();
+
+        event(new ConsentUpdated($this, $consent));
 
         return $consent;
     }

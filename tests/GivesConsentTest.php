@@ -2,6 +2,9 @@
 
 namespace Origami\Consent\Test;
 
+use Illuminate\Support\Facades\Event;
+use Origami\Consent\Events\ConsentUpdated;
+
 class GivesConsentTest extends TestCase
 {
     /** @test */
@@ -98,5 +101,19 @@ class GivesConsentTest extends TestCase
         $this->testUser->giveConsentTo('emails', ['text' => 'New text']);
 
         $this->assertEquals(2, $this->testUser->consents()->count());
+    }
+
+    /** @test */
+    public function it_fires_event_when_consent_updated()
+    {
+        Event::fake();
+        
+        $this->testUser->giveConsentTo('emails');
+        
+        Event::assertDispatched(ConsentUpdated::class, function ($e) {
+            return ($e->model->id == $this->testUser->id) &&
+                   ($e->consent->name == 'emails') &&
+                   ($e->consent->given == true);
+        });
     }
 }
