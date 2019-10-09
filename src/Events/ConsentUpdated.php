@@ -3,7 +3,6 @@
 namespace Origami\Consent\Events;
 
 use Origami\Consent\Consent;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Events\Dispatchable;
 
 class ConsentUpdated
