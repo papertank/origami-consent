@@ -9,7 +9,7 @@ The necessity for the package came about through GDPR and the [UK Information Co
 
 ## Installation
 
-This package is designed for Laravel 5.4+. You can pull in this package through composer
+This package is designed for Laravel 5.8+. You can pull in this package through composer
 
 ```
 composer require origami/consent

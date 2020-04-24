@@ -2,7 +2,6 @@
 
 namespace Origami\Consent\Test;
 
-use Origami\Consent\Test\User;
 use Illuminate\Database\Schema\Blueprint;
 use Origami\Consent\ConsentServiceProvider;
 use Orchestra\Testbench\TestCase as OrchestraTestCase;
@@ -11,7 +10,7 @@ abstract class TestCase extends OrchestraTestCase
 {
     protected $testUser;
 
-    public function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
