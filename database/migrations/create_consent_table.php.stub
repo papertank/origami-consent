@@ -16,7 +16,7 @@ class CreateConsentTable extends Migration
         $tableName = config('consent.table');
 
         Schema::create($tableName, function (Blueprint $table) {
-            $table->increments('id');
+            $table->bigIncrements('id');
             $table->string('name')->index();
             $table->morphs('model');
             $table->boolean('given')->default(0);
@@ -36,6 +36,6 @@ class CreateConsentTable extends Migration
     {
         $tableName = config('consent.table');
 
-        Schema::drop($tableName);
+        Schema::dropIfExists($tableName);
     }
 }
