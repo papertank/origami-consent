@@ -35,6 +35,10 @@ trait GivesConsent
         $consent->given = (boolean) $given;
         $consent->model()->associate($this);
 
+        if (! $consent->getConnectionName()) {
+            $consent->setConnection($this->getConnectionName());
+        }
+
         return $consent;
     }
 
