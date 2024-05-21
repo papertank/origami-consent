@@ -11,19 +11,19 @@ The necessity for the package came about through GDPR and the [UK Information Co
 
 This package is designed for Laravel >= 6.0. You can pull in this package through composer.
 
-```
+```bash
 composer require origami/consent
 ```
 
 You should publish the consent table migration with:
 
-```
+```bash
 php artisan vendor:publish --provider="Origami\Consent\ConsentServiceProvider" --tag="migrations"
 ```
 
 The migrate the database:
 
-```
+```bash
 php artisan migrate
 ```
 
@@ -101,8 +101,9 @@ $consent = $model->getConsent('consent-name');
 
 Please submit improvements and fixes :)
 
-## Author
-[Papertank Limited](https://papertank.com)
+## Credits
+- [Papertank Limited](https://papertank.com)
+- [All Contributors](../../contributors)
 
 ## License
-[View the license](https://github.com/papertank/origami-consent/blob/master/LICENSE)
+[View the license](LICENSE.md)
